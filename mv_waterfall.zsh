@@ -2,7 +2,6 @@
 
 floor=5242880
 file_path=
-abort_flag=""
 
 integer floor_tmp=$1
 integer first_dest_idx=3
@@ -19,24 +18,20 @@ fi
 for dst_path in ${@:$first_dest_idx:$#}
   do
   avail=$(df --output=avail $dst_path | tail -n1)
-  while [[ -n "${(@f)$(ls -I \"*.tmp\" -A $file_path)}" ]] \
-        && [[ $avail -ge $floor ]]
+  files_list=${(@f)$(ls -I "*.tmp" -A $file_path)}
+  while [[ -n "$files_list" ]] && [[ $avail -ge $floor ]]
   do
-    files=("${(@f)$(ls -I \"*.tmp\" -A $file_path)}")
-    if [[ -z $files ]]
+    if [[ -z $files_list ]]
     then
       break 2
     fi
-    mv -- "$file_path/$files[1]" "$dst_path/$files[1]"
+    mv -- "$file_path/$files_list[1]" "$dst_path/$files_list[1]"
+    files_list=(${files_list:1:$#files_list})
     new_avail=$(df --output=avail $dst_path | tail -n1)
     if [[ $avail -le $new_avail ]]
     then
-      break 2
+      break
     fi
     avail=$new_avail
   done
-  if [[ "$abort_flag" ]]
-  then
-    break
-  fi
 done
