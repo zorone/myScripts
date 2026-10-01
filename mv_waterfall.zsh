@@ -3,15 +3,23 @@
 floor=5242880
 file_path=
 
-if [[ -n "$2" ]]
+integer floor_tmp=$1
+integer first_dest_idx=3
+if [[ $floor_tmp -gt 0 ]]
 then
-  floor=$1
-  file_path=$2
+  first_dest_idx=3
+  if [[ -n "$2" ]]
+  then
+    floor=$1
+    file_path=$2
+  else
+    file_path=$1
+  fi
 else
-  file_path=$1
+  first_dest_idx=2
 fi
 
-for dst_path in ${@:3:$#}
+for dst_path in ${@:$first_dest_idx:$#}
   do
   while [[ -n $("ls -A $file_path") ]]
   do
