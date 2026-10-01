@@ -38,5 +38,5 @@ do
     kill -s CONT "$(pgrep 7z)"
   fi
 
-  sleep 1m
+  sleep 30s
 done
