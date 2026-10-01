@@ -8,15 +8,15 @@ dst_path = '/media/kali/4A72269B72268BAF/shared/upload/'
 def main():
     file_list = list()
     with os.scandir(scan_path) as entry_list:
-        for file in file_list:
-            if not file.name.endswith('.tmp') and file.is_file():
-                file_list += [file.name]
+        for entry in entry_list:
+            if not entry.name.endswith('.tmp') and entry.is_file():
+                file_list += [entry.name]
                 print(file_list)
-            elif file.is_dir():
-                print(f'folder: {file.name}')
+            elif entry.is_dir():
+                print(f'folder: {entry.name}')
                 print('Not move!')
             else:
-                print(f'temp file: {file.name}')
+                print(f'temp file: {entry.name}')
                 print('Not move!')
 
     print(f'Final file_list: {file_list}')
