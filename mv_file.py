@@ -22,7 +22,7 @@ def main():
     print(f'Final file_list: {file_list}')
     for file_name in file_list:
         print(f'Moving from {scan_path}{file_name} to {dst_path}{file_name}')
-        os.rename(src=file_name, dst=file_name, src_dir_fd=scan_path, dst_dir_fd=dst_path)
+        os.rename(src=f'{scan_path}{file_name}', dst=f'{dst_path}{file_name}')
 
 if __name__ == '__main__':
     main()
