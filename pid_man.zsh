@@ -15,7 +15,8 @@ fi
 echo "path = $path"
 echo "floor = $floor kilobytes"
 
-while [[ -n "$(ls -A ${path})" ]]
+file_list=$(ls -A ${path})
+while [[ -n "$file_list" ]]
 do
   avail=$(df --output=avail ${path} | tail -n1)
   if [[ $avail -lt $floor ]]
