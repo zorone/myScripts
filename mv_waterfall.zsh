@@ -8,15 +8,11 @@ integer first_dest_idx=3
 if [[ $floor_tmp -gt 0 ]]
 then
   first_dest_idx=3
-  if [[ -n "$2" ]]
-  then
-    floor=$1
-    file_path=$2
-  else
-    file_path=$1
-  fi
+  floor=$1
+  file_path=$2
 else
   first_dest_idx=2
+  file_path=$1
 fi
 
 for dst_path in ${@:$first_dest_idx:$#}
@@ -26,7 +22,7 @@ for dst_path in ${@:$first_dest_idx:$#}
     avail=$(df --output=avail $dst_path | tail -n1)
     while [[ $avail -ge $floor ]]
     do
-      files=("${(@f)$(ls -A $file_path)}")
+      files=("${(@f)$(ls -I *.tmp -A $file_path)}")
       mv "$file_path/$files[1]" "$dst_path/$files[1]"
       avail=$(df --output=avail $dst_path | tail -n1)
     done
