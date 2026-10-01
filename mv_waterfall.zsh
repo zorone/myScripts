@@ -39,3 +39,5 @@ for dst_path in ${@:$first_dest_idx:$#}
     avail=$new_avail
   done
 done
+
+echo "Finishing Job. Exit the program."
