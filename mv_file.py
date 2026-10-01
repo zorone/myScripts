@@ -31,6 +31,7 @@ if __name__ == '__main__':
     if argc != 2:
         print(f'Error: Unknown arguments')
         print(f'       Expected 2, but got {argc}')
+        return 1
 
     scan_path = sys.argv[1]
     dst_path = sys.argv[2]
