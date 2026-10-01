@@ -9,6 +9,8 @@ def main():
         for file in file_list:
             if not file.name.endswith('.tmp') and file.is_file():
                 print(file.name)
+            else if file.is_dir():
+                print(f'folder: {file.name}')
             else:
                 print(f'temp file: {file.name}')
 
