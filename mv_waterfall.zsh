@@ -19,10 +19,10 @@ fi
 for dst_path in ${@:$first_dest_idx:$#}
   do
   avail=$(df --output=avail $dst_path | tail -n1)
-  while [[ -n "${(@f)$(ls -I *.tmp -A $file_path)}" ]] \
+  while [[ -n "${(@f)$(ls -I \"*.tmp\" -A $file_path)}" ]] \
         && [[ $avail -ge $floor ]]
   do
-    files=("${(@f)$(ls -I *.tmp -A $file_path)}")
+    files=("${(@f)$(ls -I \"*.tmp\" -A $file_path)}")
     if [[ -z $files ]]
     then
       break 2
