@@ -1,6 +1,7 @@
 cd ~/DMZ/5i/
 mkdir -p $(date +%Y%m%d_T%H%M)_partial/root/sdcard/
-cd $(date +%Y%m%d_T%H%M)_partial/root/sdcard/
+file_list=(${(f)"$(ls -tr ~/DMZ/5i/)"})
+cd "$file_list[-1]"
 
 filepaths=(
   "Bluetooth"
