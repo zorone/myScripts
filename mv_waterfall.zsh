@@ -15,9 +15,12 @@ else
   file_path=$1
 fi
 
+echo "floor = $floor"
 for dst_path in ${@:$first_dest_idx:$#}
   do
   avail=$(df --output=avail $dst_path | tail -n1)
+  echo "dst_path = $dst_path"
+
   files_list=("${(@f)$(ls -I "*.tmp" -I ".tmp" -A $file_path)}")
   while [[ $avail -ge $floor ]]
   do
@@ -25,6 +28,7 @@ for dst_path in ${@:$first_dest_idx:$#}
     then
       break 2
     fi
+    echo "Moving $file_path/${files_list[1]} -> $dst_path/${files_list[1]}"
     mv -- "$file_path/$files_list[1]" "$dst_path/$files_list[1]"
     files_list=(${files_list:1:$#files_list})
     new_avail=$(df --output=avail $dst_path | tail -n1)
