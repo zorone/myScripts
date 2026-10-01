@@ -1,7 +1,8 @@
-#! /bin/env zsh
+#! /usr/bin/env zsh
 
 floor=5242880
 file_path=
+abort_flag=""
 
 integer floor_tmp=$1
 integer first_dest_idx=3
@@ -17,19 +18,28 @@ fi
 
 for dst_path in ${@:$first_dest_idx:$#}
   do
-  while [[ -n "$(ls -A $file_path)" ]]
+  while [[ -z $abort_flag ]] && [[ -n "$(ls -A $file_path)" ]]
   do
     avail=$(df --output=avail $dst_path | tail -n1)
     while [[ $avail -ge $floor ]]
     do
       files=("${(@f)$(ls -I *.tmp -A $file_path)}")
+      if [[ -z $files ]]
+      then
+        break 3
+      fi
       mv -- "$file_path/$files[1]" "$dst_path/$files[1]"
       new_avail=$(df --output=avail $dst_path | tail -n1)
       if [[ $avail -le $new_avail ]]
       then
-        break 3
+        abort_flag="abort"
+        break
       fi
       avail=$new_avail
     done
   done
+  if [[ "$abort_flag" ]]
+  then
+    break
+  fi
 done
