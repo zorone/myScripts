@@ -18,7 +18,7 @@ fi
 for dst_path in ${@:$first_dest_idx:$#}
   do
   avail=$(df --output=avail $dst_path | tail -n1)
-  files_list=(${(@f)$(ls -I "*.tmp" -A $file_path)})
+  files_list=("${(@f)$(ls -I "*.tmp" -I ".tmp" -A $file_path)}")
   while [[ $avail -ge $floor ]]
   do
     if [[ -z $files_list ]]
