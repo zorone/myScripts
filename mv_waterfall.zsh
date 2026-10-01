@@ -18,7 +18,7 @@ fi
 
 for dst_path in ${@:$first_dest_idx:$#}
   do
-  while [[ -z $abort_flag ]] && [[ -n "$(ls -A $file_path)" ]]
+  while [[ -z $abort_flag ]] && [[ -n "${(@f)$(ls -I *.tmp -A $file_path)}" ]]
   do
     avail=$(df --output=avail $dst_path | tail -n1)
     while [[ $avail -ge $floor ]]
