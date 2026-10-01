@@ -17,14 +17,19 @@ fi
 
 for dst_path in ${@:$first_dest_idx:$#}
   do
-  while [[ -n $("ls -A $file_path") ]]
+  while [[ -n "$(ls -A $file_path)" ]]
   do
     avail=$(df --output=avail $dst_path | tail -n1)
     while [[ $avail -ge $floor ]]
     do
       files=("${(@f)$(ls -I *.tmp -A $file_path)}")
-      mv "$file_path/$files[1]" "$dst_path/$files[1]"
-      avail=$(df --output=avail $dst_path | tail -n1)
+      mv -- "$file_path/$files[1]" "$dst_path/$files[1]"
+      new_avail=$(df --output=avail $dst_path | tail -n1)
+      if [[ $avail -le $new_avail ]]
+      then
+        break 3
+      fi
+      avail=$new_avail
     done
   done
 done
