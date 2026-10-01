@@ -12,6 +12,9 @@ then
   floor=$1
 fi
 
+echo "path = $path"
+echo "floor = $floor kilobytes"
+
 while [[ -n "$(ls -A $path)" ]]
 do
   avail=$(df --output=avail $path | tail -n1)
