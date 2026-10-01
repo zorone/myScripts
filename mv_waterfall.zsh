@@ -18,25 +18,22 @@ fi
 
 for dst_path in ${@:$first_dest_idx:$#}
   do
-  while [[ -z $abort_flag ]] && [[ -n "${(@f)$(ls -I *.tmp -A $file_path)}" ]]
+  avail=$(df --output=avail $dst_path | tail -n1)
+  while [[ -n "${(@f)$(ls -I *.tmp -A $file_path)}" ]] \
+        && [[ $avail -ge $floor ]]
   do
-    avail=$(df --output=avail $dst_path | tail -n1)
-    while [[ $avail -ge $floor ]]
-    do
-      files=("${(@f)$(ls -I *.tmp -A $file_path)}")
-      if [[ -z $files ]]
-      then
-        break 3
-      fi
-      mv -- "$file_path/$files[1]" "$dst_path/$files[1]"
-      new_avail=$(df --output=avail $dst_path | tail -n1)
-      if [[ $avail -le $new_avail ]]
-      then
-        abort_flag="abort"
-        break
-      fi
-      avail=$new_avail
-    done
+    files=("${(@f)$(ls -I *.tmp -A $file_path)}")
+    if [[ -z $files ]]
+    then
+      break 2
+    fi
+    mv -- "$file_path/$files[1]" "$dst_path/$files[1]"
+    new_avail=$(df --output=avail $dst_path | tail -n1)
+    if [[ $avail -le $new_avail ]]
+    then
+      break 2
+    fi
+    avail=$new_avail
   done
   if [[ "$abort_flag" ]]
   then
