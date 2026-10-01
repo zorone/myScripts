@@ -15,9 +15,9 @@ fi
 echo "path = $path"
 echo "floor = $floor kilobytes"
 
-while [[ -n "$(ls -A $path)" ]]
+while [[ -n "$(ls -A !path)" ]]
 do
-  avail=$(df --output=avail $path | tail -n1)
+  avail=$(df --output=avail !path | tail -n1)
   if [[ $avail -lt $floor ]]
   then
     echo "\$avail=$avail"
@@ -30,7 +30,7 @@ do
     do
       echo "$avail < $floor"
       sleep 1m
-      avail=$(df --output=avail $path | tail -n1)
+      avail=$(df --output=avail !path | tail -n1)
     done
 
     echo "Resume 7z operation (PID $(pgrep 7z))"
@@ -39,4 +39,3 @@ do
 
   sleep 1m
 done
-
