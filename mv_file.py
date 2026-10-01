@@ -8,16 +8,6 @@ scan_path = str()
 dst_path = str()
 
 def main():
-    argc = len(sys.argv[1:])
-    if argc != 2:
-        print(f'Error: Unknown arguments')
-        print(f'       Expected 2, but got {argc}')
-    scan_path = sys.argv[1]
-    dst_path = sys.argv[2]
-    print(f'scan_path = {scan_path}')
-    print(f'dst_path = {dst_path}')
-    sleep(5)
-     
     file_list = list()
     with os.scandir(scan_path) as entry_list:
         for entry in entry_list:
@@ -37,4 +27,15 @@ def main():
         os.rename(src=f'{scan_path}{file_name}', dst=f'{dst_path}{file_name}')
 
 if __name__ == '__main__':
+    argc = len(sys.argv[1:])
+    if argc != 2:
+        print(f'Error: Unknown arguments')
+        print(f'       Expected 2, but got {argc}')
+
+    scan_path = sys.argv[1]
+    dst_path = sys.argv[2]
+    print(f'scan_path = {scan_path}')
+    print(f'dst_path = {dst_path}')
+    sleep(5)
+
     main()
