@@ -1,10 +1,11 @@
 #! /bin/zsh
 
 floor=5242880
-path="/mnt/smb"
+# Don't use $path !!!
+file_path="/mnt/smb"
 if [[ "$2" ]]
 then
-  path="$2"
+  file_path="$2"
 fi
 
 if [[ "$1" ]]
@@ -12,13 +13,12 @@ then
   floor=$1
 fi
 
-echo "path = $path"
+echo "path = $file_path"
 echo "floor = $floor kilobytes"
 
-file_list=$( ls -A ${(P)path} )
-while [[ -n "$file_list" ]]
+while [[ -n "$(ls -A $file_path)" ]]
 do
-  avail=$(df --output=avail ${(P)path} | tail -n1)
+  avail=$(df --output=avail $file_path | tail -n1)
   if [[ $avail -lt $floor ]]
   then
     echo "\$avail=$avail"
@@ -31,7 +31,7 @@ do
     do
       echo "$avail < $floor"
       sleep 1m
-      avail=$(df --output=avail ${(P)path} | tail -n1)
+      avail=$(df --output=avail $file_path | tail -n1)
     done
 
     echo "Resume 7z operation (PID $(pgrep 7z))"
