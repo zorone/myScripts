@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import subprocess
-parent = Path('/home/zorone/test/')
+parent = Path('/usr/share/dotnet/sdk')
 if(not parent.exists()):
     parent.mkdir()
 p = list(parent.glob('*'))
