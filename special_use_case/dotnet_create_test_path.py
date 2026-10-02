@@ -7,4 +7,5 @@ if not p.exists():
 with open(Path('./result-dedup.txt')) as f:
 	for line in f:
 		(p/line.strip()).mkdir()
+		(p/line.strip()/'.gitkeep').touch()
 
